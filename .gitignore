@@ -33,3 +33,5 @@ build/
 .vscode/
 .mvn/
 .git
+request.http
+data.sql
