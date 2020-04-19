@@ -12,12 +12,17 @@ import verslane.corporation.blibliogest.book.persistence.repository.AuthorReposi
 public class AuthorService {
 
     @Autowired
-    private AuthorRepository authorRepository ; 
+    private AuthorRepository authorRepository;
 
+    public void create(String name) {
+        AuthorEntity newAuthor = new AuthorEntity();
+        newAuthor.setName(name);
+        authorRepository.save(newAuthor);
+    }
 
-    public boolean exist(String name){
+    public boolean exist(String name) {
 
-        Optional <AuthorEntity> authorOpt = authorRepository.findByName(name);
+        Optional < AuthorEntity > authorOpt = authorRepository.findByName(name);
 
         return authorOpt.isPresent();
     }

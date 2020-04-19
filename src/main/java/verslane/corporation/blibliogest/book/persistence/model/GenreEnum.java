@@ -6,7 +6,8 @@ public enum GenreEnum {
     BIOGRAPHIE,
     NOUVELLE, 
     COMÉDIE,
-    LETTRE,  
+    LETTRE, 
+    POÉSIE, 
     BD, 
     MANGA 
 }

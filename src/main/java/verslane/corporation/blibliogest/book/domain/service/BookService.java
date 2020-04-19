@@ -44,35 +44,50 @@ public class BookService {
 
     public void create(BookDto bookDto) {
 
-        if (authorService.exist(bookDto.getAuthor())) {
+        if (!authorService.exist(bookDto.getAuthor())) {
 
-            AuthorEntity author = authorepository.findByName(bookDto.getAuthor()).get();
-            BookEntity newBook = new BookEntity();
-
-            newBook = dtoAssembler.toModel(bookDto, author);
-            bookRepository.save(newBook);
-
-        } else {
-            System.out.println("L'auteur demandé n'existe pas ");
+            authorService.create(bookDto.getAuthor());
         }
+
+        AuthorEntity author = authorepository.findByName(bookDto.getAuthor()).get();
+        BookEntity newBook = new BookEntity();
+        newBook = dtoAssembler.toModel(bookDto, author);
+
+        try {
+            bookRepository.save(newBook);
+        } catch (Exception e) {
+            System.out.println(e.getCause());
+        }
+
     }
 
     public void update(Long id, BookDto bookDto) {
+
         BookEntity bookEntity = new BookEntity();
         Optional < BookEntity > bookUpd = findById(id);
+        AuthorEntity previousAuthor = bookUpd.get().getAuthor();
+
         if (bookUpd.isPresent()) {
-            if (authorService.exist(bookDto.getAuthor())) {
-                AuthorEntity author = authorepository.findByName(bookDto.getAuthor()).get();
-                bookEntity = dtoAssembler.toModel(bookDto, author);
-                bookRepository.save(bookEntity);
-            } else {
-                System.out.println("L'auteur n'existe pas !");
+            if (!authorService.exist(bookDto.getAuthor())) {
+                authorService.create(bookDto.getAuthor());
             }
+
+            AuthorEntity author = authorepository.findByName(bookDto.getAuthor()).get();
+            bookEntity = dtoAssembler.toModel(bookDto, author);
+
+            try {
+                bookRepository.save(bookEntity);
+            } catch (Exception e) {
+                System.out.println(e.getCause());
+            }
+
+            verifyBookExistByAuthor(previousAuthor);
+
         } else {
-            System.out.println("Le libre n'existe pas !");
+            System.out.println("Le livre n'existe pas !");
         }
     }
-    
+
     public void delete(Long id) {
         Optional < BookEntity > bookOpt = findById(id);
         if (bookOpt.isPresent()) {
@@ -80,4 +95,10 @@ public class BookService {
         }
     }
 
+    public void verifyBookExistByAuthor(AuthorEntity author) {
+        List < BookEntity > books = bookRepository.findByAuthorId(author.getId());
+        if (books.isEmpty()) {
+            authorepository.delete(author);
+        }
+    }
 }

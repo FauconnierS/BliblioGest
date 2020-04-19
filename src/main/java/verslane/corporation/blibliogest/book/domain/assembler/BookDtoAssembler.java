@@ -1,5 +1,6 @@
 package verslane.corporation.blibliogest.book.domain.assembler;
 
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,6 +19,7 @@ public class BookDtoAssembler {
         for (BookEntity book: books) {
             bookDtos.add(fromModel(book));
         }
+        System.out.println(bookDtos);
         return bookDtos;
     }
 

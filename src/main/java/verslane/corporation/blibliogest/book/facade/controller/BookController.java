@@ -19,15 +19,16 @@ import verslane.corporation.blibliogest.book.facade.dto.BookDto;
 public class BookController {
 
     @Autowired
-    private BookService bookService ;
+    private BookService bookService;
 
     @GetMapping("/")
-    public List<BookDto> listBook(){
+    public List < BookDto > listBook() {
         return bookService.findAll();
     }
 
+
     @GetMapping("/{bookId}")
-    public BookDto bookDetail(@PathVariable("bookId") Long id){
+    public BookDto bookDetail(@PathVariable("bookId") Long id) {
         return bookService.findOne(id);
     }
 
@@ -37,12 +38,12 @@ public class BookController {
     }
 
     @PostMapping("/update")
-    public void updateBook(@RequestBody BookDto bookDto){
+    public void updateBook(@RequestBody BookDto bookDto) {
         bookService.update(bookDto.getId(), bookDto);
     }
 
     @PostMapping("/delete")
-    public void deleteBook (@RequestBody BookDto bookDto){
+    public void deleteBook(@RequestBody BookDto bookDto) {
         bookService.delete(bookDto.getId());
     }
 
