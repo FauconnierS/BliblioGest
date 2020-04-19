@@ -14,16 +14,23 @@ public class AuthorService {
     @Autowired
     private AuthorRepository authorRepository;
 
+    public Optional < AuthorEntity > findByName(String name) {
+        return authorRepository.findByName(name);
+    }
+
     public void create(String name) {
         AuthorEntity newAuthor = new AuthorEntity();
         newAuthor.setName(name);
         authorRepository.save(newAuthor);
     }
 
+    public void delete(AuthorEntity author) {
+        authorRepository.delete(author);
+    }
+
     public boolean exist(String name) {
 
         Optional < AuthorEntity > authorOpt = authorRepository.findByName(name);
-
         return authorOpt.isPresent();
     }
 

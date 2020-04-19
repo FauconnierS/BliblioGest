@@ -10,7 +10,7 @@ import verslane.corporation.blibliogest.book.domain.assembler.BookDtoAssembler;
 import verslane.corporation.blibliogest.book.facade.dto.BookDto;
 import verslane.corporation.blibliogest.book.persistence.model.AuthorEntity;
 import verslane.corporation.blibliogest.book.persistence.model.BookEntity;
-import verslane.corporation.blibliogest.book.persistence.repository.AuthorRepository;
+
 import verslane.corporation.blibliogest.book.persistence.repository.BookRepository;
 
 @Service
@@ -21,9 +21,6 @@ public class BookService {
 
     @Autowired
     private AuthorService authorService;
-
-    @Autowired
-    private AuthorRepository authorepository;
 
     @Autowired
     private BookDtoAssembler dtoAssembler;
@@ -49,7 +46,7 @@ public class BookService {
             authorService.create(bookDto.getAuthor());
         }
 
-        AuthorEntity author = authorepository.findByName(bookDto.getAuthor()).get();
+        AuthorEntity author = authorService.findByName(bookDto.getAuthor()).get();
         BookEntity newBook = new BookEntity();
         newBook = dtoAssembler.toModel(bookDto, author);
 
@@ -72,7 +69,7 @@ public class BookService {
                 authorService.create(bookDto.getAuthor());
             }
 
-            AuthorEntity author = authorepository.findByName(bookDto.getAuthor()).get();
+            AuthorEntity author = authorService.findByName(bookDto.getAuthor()).get();
             bookEntity = dtoAssembler.toModel(bookDto, author);
 
             try {
@@ -98,7 +95,7 @@ public class BookService {
     public void verifyBookExistByAuthor(AuthorEntity author) {
         List < BookEntity > books = bookRepository.findByAuthorId(author.getId());
         if (books.isEmpty()) {
-            authorepository.delete(author);
+            authorService.delete(author);
         }
     }
 }
