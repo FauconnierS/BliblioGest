@@ -9,6 +9,8 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import verslane.corporation.blibliogest.citation.persistence.model.CitationEntity;
+
 @Entity
 @Table(name = "author")
 public class AuthorEntity {
@@ -22,7 +24,9 @@ public class AuthorEntity {
     @OneToMany(mappedBy = "author") 
     private List<BookEntity> books ; 
 
-
+    @OneToMany(mappedBy = "author")
+    private List<CitationEntity> citations; 
+    
     public Long getId() {
         return this.id;
     }

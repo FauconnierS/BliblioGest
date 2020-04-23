@@ -9,7 +9,6 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "books")
@@ -24,7 +23,6 @@ public class BookEntity {
     private String year;
 
     @ManyToOne
-    @JsonIgnore
     private AuthorEntity author; 
 
     @Enumerated(EnumType.STRING)
