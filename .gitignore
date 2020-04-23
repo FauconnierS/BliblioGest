@@ -35,3 +35,4 @@ build/
 .git
 request.http
 data.sql
+.DS_Store
