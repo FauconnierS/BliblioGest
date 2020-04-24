@@ -39,6 +39,10 @@ public class BookService {
         return bookDto;
     }
 
+    public List<BookEntity> findByAuthorId(Long id){
+        return bookRepository.findByAuthorId(id);
+    }
+
     public void create(BookDto bookDto) {
 
         if (!authorService.exist(bookDto.getAuthor())) {
@@ -78,24 +82,20 @@ public class BookService {
                 System.out.println(e.getCause());
             }
 
-            verifyBookExistByAuthor(previousAuthor);
+           authorService.verifyBookOrCitationExistByAuthor(previousAuthor);
 
         } else {
             System.out.println("Le livre n'existe pas !");
         }
     }
 
-    public void delete(Long id) {
-        Optional < BookEntity > bookOpt = findById(id);
+    public void delete(BookDto bookDto) {
+        Optional < BookEntity > bookOpt = findById(bookDto.getId());
         if (bookOpt.isPresent()) {
             bookRepository.delete(bookOpt.get());;
         }
+          authorService.verifyBookOrCitationExistByAuthor(authorService.findByName(bookDto.getAuthor()).get());
     }
 
-    public void verifyBookExistByAuthor(AuthorEntity author) {
-        List < BookEntity > books = bookRepository.findByAuthorId(author.getId());
-        if (books.isEmpty()) {
-            authorService.delete(author);
-        }
-    }
+   
 }

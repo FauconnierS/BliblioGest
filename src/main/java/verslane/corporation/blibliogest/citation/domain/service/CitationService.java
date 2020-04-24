@@ -38,6 +38,9 @@ public class CitationService {
 
     }
 
+    public List<CitationEntity> findByAuthorId(Long id ){
+        return citationRepository.findByAuthorId(id);
+    }
     public void create(CitationDto citationDto) {
         if (!authorService.exist(citationDto.getAuthor())) {
             authorService.create(citationDto.getAuthor());
@@ -73,12 +76,14 @@ public class CitationService {
         System.out.println("La citation à modifier n'existe pas !");
     }
 
-    public void delete(Long id) {
-        Optional<CitationEntity> citationOpt = findByid(id);
+    public void delete(CitationDto citationDto){
+        Optional<CitationEntity> citationOpt = findByid(citationDto.getId());
 
         if(citationOpt.isPresent()){
             citationRepository.delete(citationOpt.get());
         }
+
+        authorService.verifyBookOrCitationExistByAuthor(authorService.findByName(citationDto.getAuthor()).get());
     }
 
 }

@@ -43,6 +43,6 @@ public class CitationController {
 
     @PostMapping("/delete")
     public void deleteCitation(@RequestBody CitationDto citationDto) {
-        citationService.delete(citationDto.getId());
+        citationService.delete(citationDto);
     }
 }

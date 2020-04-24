@@ -44,7 +44,7 @@ public class BookController {
 
     @PostMapping("/delete")
     public void deleteBook(@RequestBody BookDto bookDto) {
-        bookService.delete(bookDto.getId());
+        bookService.delete(bookDto);
     }
 
 }
