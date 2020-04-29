@@ -23,3 +23,11 @@ header,
 .view {
     height: 100%;
 }
+
+main{
+
+    background-color: #FFE2DE;
+}
+main h1 {
+    font-weight: 500;
+}
