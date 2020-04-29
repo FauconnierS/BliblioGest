@@ -16,7 +16,7 @@ $(document).ready(function () {
                         output += "<td id = '" + key + "'>" + val.author + "</td>";
                         output += "<td id = '" + key + "'>" + val.year + "</td>";
                         output += "<td id = '" + key + "'>" + jsUcfirst(val.genre) + "</td>";
-                        output += "</td>";
+                        output += "</tr>";
                     }
 
                 });

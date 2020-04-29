@@ -1,0 +1,33 @@
+.intro-2 {
+    background: url("../image/Intro_img.jpg")no-repeat center center;
+    background-size: cover;
+}
+
+.navbar {
+    background-color: transparent;
+    font-size: 1.5em;
+}
+
+.top-nav-collapse {
+    background-color: #b48484;
+}
+
+@media only screen and (max-width: 768px) {
+    .navbar {
+        background-color: #b48484;
+    }
+}
+html,
+body,
+header,
+.view {
+    height: 100%;
+}
+
+main{
+
+    background-color: #FFE2DE;
+}
+main h1 {
+    font-weight: 500;
+}

@@ -26,7 +26,7 @@ public class CitationService {
     private CitationDtoAssembler citationDtoAssembler;
 
     public List < CitationDto > findAll() {
-        return citationDtoAssembler.fromModels(citationRepository.findAll());
+        return citationDtoAssembler.fromModels(citationRepository.findAllByOrderByIdDesc());
     }
 
     public CitationDto findOne(Long id) {

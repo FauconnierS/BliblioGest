@@ -11,6 +11,7 @@ import verslane.corporation.blibliogest.citation.persistence.model.CitationEntit
 public interface CitationRepository extends JpaRepository<CitationEntity, Long>{
 
 	List<CitationEntity> findByAuthorId(Long id);
+	List<CitationEntity> findAllByOrderByIdDesc ();
 
     
 }
