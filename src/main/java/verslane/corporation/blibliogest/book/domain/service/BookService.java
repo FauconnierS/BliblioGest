@@ -30,7 +30,7 @@ public class BookService {
     }
 
     public List < BookDto > findAll() {
-        return dtoAssembler.fromModels(bookRepository.findAll());
+        return dtoAssembler.fromModels(bookRepository.findAllByOrderByIdDesc());
     }
 
     public BookDto findOne(Long id) {

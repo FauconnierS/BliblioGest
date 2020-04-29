@@ -11,5 +11,6 @@ import verslane.corporation.blibliogest.book.persistence.model.BookEntity;
 public interface BookRepository extends JpaRepository<BookEntity,Long> {
 
     List<BookEntity> findByAuthorId (Long id) ;
+    List<BookEntity> findAllByOrderByIdDesc () ;
 
 }
