@@ -5,3 +5,7 @@ body{
 .navbar{
     background-color: #b48484;
 }
+
+.load {
+    display: none ; 
+}

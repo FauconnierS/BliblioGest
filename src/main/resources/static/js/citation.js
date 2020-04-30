@@ -1,5 +1,20 @@
 $(document).ready(function () {
 
+    $.getJSON("http://127.0.0.1:8080/blibliogest/citation/",
+        function (data, textStatus, jqXHR) {
+            var res;
+            $.each(data, function (key, val) {
+                res += "<tr>";
+                res += "<td>" + val.text + "</td>";
+                res += "<td>" + val.author + "</td>";
+                res += "</tr>";
+
+            });
+            $('tbody').html(res);
+
+        }
+    );
+
     $('#search').keydown(function () {
 
         $.getJSON("http://127.0.0.1:8080/blibliogest/citation/",
@@ -39,12 +54,11 @@ $(document).ready(function () {
             contentType: "application/json",
             dataType: "json",
             data: data,
-            success: function (response) {
-                location.reload(true);
+            success: function (response) {}
 
-            }
         });
-            
+        $('#conexionCitation').load("citation.html #conexionCitation");
+        $('main').prepend('<div class="alert alert-success"> Votre Citation à bien été ajoutée </div>');
 
     });
 
