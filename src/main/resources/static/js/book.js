@@ -25,15 +25,16 @@ $(document).ready(function () {
         );
     });
 
-    $('#conexion').submit(function (e) {
+    $('#conexionBook').submit(function (e) {
         e.preventDefault();
 
+        var data;
         var form = new Object();
         form.title = $('#title').val();
         form.author = $('#author').val();
         form.year = $('#year').val();
         form.genre = $('#genre').val();
-        var data = JSON.stringify(form);
+        data = JSON.stringify(form);
         console.log(data);
 
         $.ajax({
@@ -42,13 +43,11 @@ $(document).ready(function () {
             contentType: "application/json",
             dataType: "json",
             data: data,
-            success: function (response) {     
+            sucess: function (msg) {
             }
         });
-
-        location.reload(true);
-
-
+        $('#conexionBook').load("book.html #conexionBook");
+        $('main').prepend('<div class="alert alert-success"> Votre livre à vien été ajouté </div>');
     });
 
 });

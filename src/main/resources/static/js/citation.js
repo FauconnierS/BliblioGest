@@ -23,7 +23,7 @@ $(document).ready(function () {
         );
     })
 
-    $('#conexion').submit(function (e) {
+    $('#conexionCitation').submit(function (e) {
         e.preventDefault();
 
         var data;
@@ -40,10 +40,11 @@ $(document).ready(function () {
             dataType: "json",
             data: data,
             success: function (response) {
-
+                location.reload(true);
 
             }
         });
+            
 
     });
 

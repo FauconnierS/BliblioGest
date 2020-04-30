@@ -43,7 +43,7 @@ public class BookService {
         return bookRepository.findByAuthorId(id);
     }
 
-    public void create(BookDto bookDto) {
+    public String create(BookDto bookDto) {
 
         if (!authorService.exist(bookDto.getAuthor())) {
 
@@ -53,12 +53,16 @@ public class BookService {
         AuthorEntity author = authorService.findByName(bookDto.getAuthor()).get();
         BookEntity newBook = new BookEntity();
         newBook = dtoAssembler.toModel(bookDto, author);
+        String msg = "success";
 
         try {
             bookRepository.save(newBook);
         } catch (Exception e) {
             System.out.println(e.getCause());
+            msg = "error";
         }
+        
+        return msg ; 
 
     }
 
