@@ -1,3 +1,10 @@
+html,
+body,
+header,
+.view {
+    height: 100%;
+}
+
 .intro-2 {
     background: url("../image/Intro_img.jpg")no-repeat center center;
     background-size: cover;
@@ -8,25 +15,29 @@
 }
 
 .top-nav-collapse {
-    background-color: #b48484;
+    background-color: #84B484;
 }
+
+.horizontal-border {
+    border-bottom: 4px solid #84B484;
+}
+
+#first-part {
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    text-align: center;
+    
+}
+
+.first-part-title {
+    font-weight: 600;
+    text-align: center;
+    color: #84B484;
+}
+
+/* Responsive */
 
 @media only screen and (max-width: 768px) {
     .navbar {
-        background-color: #b48484;
+        background-color: #84B484;
     }
-}
-html,
-body,
-header,
-.view {
-    height: 100%;
-}
-
-main{
-
-    background-color: #FFE2DE;
-}
-main h1 {
-    font-weight: 500;
 }
