@@ -5,6 +5,11 @@ header,
     height: 100%;
 }
 
+h4 {
+    font-weight: 600;
+}
+
+
 .intro-2 {
     background: url("../image/Intro_img.jpg")no-repeat center center;
     background-size: cover;
@@ -25,14 +30,48 @@ header,
 #first-part {
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
     text-align: center;
-    
 }
 
-.first-part-title {
-    font-weight: 600;
+.part-subtitle{
     text-align: center;
+    font-style: italic;
+}
+
+.first-part p, .second-part p {
+    color: gray;
+}
+
+#first-part-article p {
+
+    text-align: justify;
+}
+
+.part-title {
+    font-weight: bold;
+    text-align: center;
+
+}
+
+.second-part{
+    background-color :#f8f9fa ;
+}
+
+.img-second-part {
+    max-width : 50%;
+    height: 50%;
+    display: block;
+}
+
+.icon-1 {
+    font-size: 6rem;
     color: #84B484;
 }
+.icon-2 {
+    font-size: 3rem;
+    color: #84B484;
+    border-radius: 15%;
+}
+
 
 /* Responsive */
 
