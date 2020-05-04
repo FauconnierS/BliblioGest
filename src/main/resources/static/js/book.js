@@ -23,6 +23,7 @@ $(document).ready(function () {
                 var search = $('#search').val();
                 var regex = new RegExp(search, 'i');
                 var output;
+                var nb = 0 ;
 
                 $.each(data, function (key, val) {
                     if ((val.title.search(regex) != -1) || (val.author.search(regex) != -1) || (val.year.search(regex) != -1) || (val.genre.search(regex) != -1)) {
@@ -33,8 +34,9 @@ $(document).ready(function () {
                         output += "<td id = '" + key + "'>" + jsUcfirst(val.genre) + "</td>";
                         output += "</tr>";
                     }
-
-                });
+                    
+                }); 
+              
                 $('tbody').html(output);
             }
         );
