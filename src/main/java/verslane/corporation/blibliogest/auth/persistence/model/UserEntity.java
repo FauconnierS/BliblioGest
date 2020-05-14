@@ -1,10 +1,15 @@
 package verslane.corporation.blibliogest.auth.persistence.model;
 
+import java.util.List;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import verslane.corporation.blibliogest.profile.persistence.model.NoteEntity;
 
 @Entity
 @Table(name="user")
@@ -23,6 +28,9 @@ public class UserEntity {
     private boolean isActive ; 
 
     private String roles ;
+
+    @OneToMany(mappedBy = "user")
+    private List<NoteEntity> notes ; 
 
     public Long getId() {
         return id;
@@ -70,5 +78,13 @@ public class UserEntity {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public List<NoteEntity> getNotes() {
+        return notes;
+    }
+
+    public void setNotes(List<NoteEntity> notes) {
+        this.notes = notes;
     }
 }
