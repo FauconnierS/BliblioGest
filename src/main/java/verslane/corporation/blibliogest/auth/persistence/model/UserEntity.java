@@ -18,7 +18,7 @@ public class UserEntity {
 
     private String password ;
 
-    private boolean isAcitve ; 
+    private boolean isActive ; 
 
     private String roles ;
 
@@ -46,12 +46,12 @@ public class UserEntity {
         this.password = password;
     }
 
-    public boolean isAcitve() {
-        return isAcitve;
+    public boolean isActive() {
+        return isActive;
     }
 
-    public void setAcitve(boolean isAcitve) {
-        this.isAcitve = isAcitve;
+    public void setActive(boolean isActive) {
+        this.isActive = isActive;
     }
 
     public String getRoles() {
@@ -61,5 +61,4 @@ public class UserEntity {
     public void setRoles(String roles) {
         this.roles = roles;
     }
-       
 }
