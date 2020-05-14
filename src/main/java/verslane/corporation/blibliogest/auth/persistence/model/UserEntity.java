@@ -16,6 +16,8 @@ public class UserEntity {
 
     private String userName ; 
 
+    private String email ;
+
     private String password ;
 
     private boolean isActive ; 
@@ -60,5 +62,13 @@ public class UserEntity {
 
     public void setRoles(String roles) {
         this.roles = roles;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 }
