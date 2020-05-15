@@ -32,7 +32,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.cors()
             .and()
             .authorizeRequests()
-                .antMatchers("/citation.html" ,"/book.html")
+                .antMatchers("/citation.html" ,"/book.html" ,"/profil.html")
                     .authenticated()
             .and()
             .formLogin()

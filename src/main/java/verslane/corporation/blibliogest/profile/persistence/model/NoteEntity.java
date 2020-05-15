@@ -1,19 +1,29 @@
 package verslane.corporation.blibliogest.profile.persistence.model;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 import verslane.corporation.blibliogest.auth.persistence.model.UserEntity;
 
 @Entity
+@Table(name = "note")
 public class NoteEntity {
     
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id ; 
 
     private String book ; 
 
+    @Column(nullable = true)
     private String chapter ; 
 
+    @Column(nullable = true)
     private String page ; 
 
     private String comentary ;

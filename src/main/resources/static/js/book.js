@@ -9,7 +9,6 @@ $(document).ready(function () {
             res += "<td>" + val.author + "</td>";
             res += "<td>" + val.year + "</td>";
             res += "<td>" + jsUcfirst(val.genre) + "</td>";
-            res += "</tr>";
            });
            $('tbody').html(res);
            
@@ -65,6 +64,7 @@ $(document).ready(function () {
         $('#conexionBook').load("book.html #conexionBook");
         $('main').prepend('<div class="alert alert-success"> Votre livre à vien été ajouté </div>');
     });
+
 
 });
 

@@ -26,6 +26,10 @@ public class MyUserDetailsService implements UserDetailsService {
         return user.map(MyUserDetails :: new).get();
     }
 
+    public Optional <UserEntity> findByUserName(String userName) {
+       return userRepository.findByUserNameOrEmail(userName);
+    } 
+
     
 
 

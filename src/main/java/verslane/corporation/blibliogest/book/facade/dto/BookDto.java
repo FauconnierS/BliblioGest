@@ -1,3 +1,4 @@
+
 package verslane.corporation.blibliogest.book.facade.dto;
 
 public class BookDto {
