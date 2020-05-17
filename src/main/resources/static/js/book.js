@@ -11,12 +11,16 @@ $(document).ready(function () {
                 res += "<td data-arraykey ='" + key + "'>" + val.year + "</td>";
                 res += "<td data-arraykey ='" + key + "'>" + jsUcfirst(val.genre) + "</td>";
                 res += "<td data-arraykey ='" + key + "'>";
+
                 res += "<button type='button' data-arraykey ='" + key + "' data-bookid='" + val.id + "' class='btn btn-warning btn-sm rounded m-0 py-1 px-2'> <i class='fas fa-pencil-alt    '></i> </button>";
-                res += " <button type='button' data-arraykey ='" + key + "' data-bookid='" + val.id + "' class='btn btn-danger btn-sm rounded m-0 py-1 px-2'> <i class='fas fa-trash-alt'></i> </button>";
+
+                res += " <button id='delete' type='button'  data-toggle='modal' data-target='#frameModalSuccess' data-arraykey ='" + key + "' class='btn btn-danger  btn-sm rounded m-0 py-1 px-2'> <i class='fas fa-trash-alt'></i> </button>";
+
                 res += "</td>";
                 res += "</tr>";
             });
             $('tbody').html(res);
+
             $('button.btn-warning').click(function (e) {
                 e.preventDefault();
                 var tabId = $(this).data('arraykey');
@@ -31,6 +35,30 @@ $(document).ready(function () {
                 $('#genre').attr('value', data[tabId].genre);
                 $('#bookid').attr('value', data[tabId].id);
                 $('#bookid').attr('name', 'update');
+            });
+
+            $('button#delete').click(function (e) {
+                e.preventDefault();
+                let tabId = $(this).data('arraykey')
+                var bookDelete;
+                var formDelete = new Object();
+                formDelete.id = data[tabId].id;
+                formDelete.tilte = data[tabId].title;
+                formDelete.author = data[tabId].author;
+                formDelete.year = data[tabId].year;
+                formDelete.genre = data[tabId].genre;
+                bookDelete = JSON.stringify(formDelete);
+
+                $.ajax({
+                    type: "POST",
+                    url: HOST + "delete",
+                    data: bookDelete,
+                    contentType: "application/json",
+                    dataType: "json",
+                    success: function (response) {}
+                });
+                $('#modal-text').append("<strong> Votre livre à bien été supprimé </strong")
+
             });
 
         }
@@ -52,8 +80,11 @@ $(document).ready(function () {
                         output += "<td data-arraykey = '" + key + "'>" + val.year + "</td>";
                         output += "<td data-arraykey = '" + key + "'>" + jsUcfirst(val.genre) + "</td>";
                         output += "<td data-arraykey = '" + key + "'>";
+
                         output += "<button type='button' data-arraykey = '" + key + "' data-bookId='" + val.id + "' class='btn btn-warning btn-sm rounded m-0 py-1 px-2'> <i class='fas fa-pencil-alt'></i> </button>";
-                        output += " <button type='button' data-arraykey = '" + key + "' data-bookId='" + val.id + "' class='btn btn-danger btn-sm rounded m-0 py-1 px-2'> <i class='fas fa-trash-alt'></i> </button>";
+
+                        output += " <button type='button' data-toggle='modal' data-target='#frameModalSuccess' data-arraykey = '" + key + "' class='btn btn-danger btn-sm rounded m-0 py-1 px-2'> <i class='fas fa-trash-alt'></i> </button>";
+
                         output += "</td>";
                         output += "</tr>";
                     }
@@ -75,6 +106,37 @@ $(document).ready(function () {
                     $('#bookid').attr('value', data[tabId].id);
                     $('#bookid').attr('name', 'update');
                 });
+
+                $('button#delete').click(function (e) {
+                    e.preventDefault();
+                    let tabId = $(this).data('arraykey');
+                    console.log(tabId);
+                    console.log(data);
+                    var bookDelete;
+                    var formDelete = new Object();
+                    formDelete.id = data[tabId].id;
+                    formDelete.tilte = data[tabId].title;
+                    formDelete.author = data[tabId].author;
+                    formDelete.year = data[tabId].year;
+                    formDelete.genre = data[tabId].genre;
+                    bookDelete = JSON.stringify(formDelete);
+                    console.log(bookDelete);
+
+                    $.ajax({
+                        type: "POST",
+                        url: HOST + "delete",
+                        data: bookDelete,
+                        contentType: "application/json",
+                        dataType: "json",
+                        success: function (response) {}
+                    });
+                    $('body').addClass("modal-open");
+                    $('#framModalSuccess').addClass("show");
+                    $('#modal-text').append("<strong> Votre livre à bien été supprimé </strong")
+
+                });
+
+
             }
         );
     });
@@ -105,29 +167,26 @@ $(document).ready(function () {
             contentType: "application/json",
             dataType: "json",
             data: data,
-            sucess: function (msg) {},
+            sucess: function (msg) {}
         });
-        $('#modal-text-sucess').append("<strong>Votre livre à bien été " + msgMethod + " </strong>" );
+        $('#modal-text').append("<strong>Votre livre à bien été " + msgMethod + " </strong>");
         
-        /* 
-
         $('#conexionBook').load("book.html #conexionBook");
-         $('main').prepend("<div class='alert alert-success'> Votre livre à bien été " + msgMethod + " </div>");
-        alert("Votre livre à bien été " + msgMethod + ". ");
-        setTimeout(function(){
-            location.reload(true);
-        },100);
-        
-        */
-        
         
     });
+    $('#frameModalSuccess').click(function (e) {
+        e.preventDefault();
+        if(e.target.id == 'frameModalSuccess'){
+            location.reload();
+        }
+      })
 
-    $('#modal-sucess').click(function (e) { 
+    $('#modal-success').click(function (e) {
         e.preventDefault();
         location.reload();
-        
     });
+
+
 
 
 });
