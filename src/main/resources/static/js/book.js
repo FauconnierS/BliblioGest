@@ -4,6 +4,7 @@ $(document).ready(function () {
     $.getJSON(HOST,
         function (data, textStatus, jqXHR) {
             var res;
+            console.log(data);
             $.each(data, function (key, val) {
                 res += "<tr>";
                 res += "<td data-arraykey ='" + key + "'>" + val.title + "</td>";
@@ -20,7 +21,6 @@ $(document).ready(function () {
                 res += "</tr>";
             });
             $('tbody').html(res);
-
             $('button.btn-warning').click(function (e) {
                 e.preventDefault();
                 var tabId = $(this).data('arraykey');
@@ -31,15 +31,15 @@ $(document).ready(function () {
 
                 $('#title').attr('value', data[tabId].title);
                 $('#author').attr('value', data[tabId].author);
-                $('#year').attr('value', data[tabId].year);
-                $('#genre').attr('value', data[tabId].genre);
+                $('#year').attr('value',data[tabId].year);
+                $("#genre option[value='" + data[tabId].genre.toUpperCase() + "']").attr('selected','selected');
                 $('#bookid').attr('value', data[tabId].id);
                 $('#bookid').attr('name', 'update');
             });
 
             $('button#delete').click(function (e) {
                 e.preventDefault();
-                let tabId = $(this).data('arraykey')
+                var tabId = $(this).data('arraykey');
                 var bookDelete;
                 var formDelete = new Object();
                 formDelete.id = data[tabId].id;
@@ -57,7 +57,7 @@ $(document).ready(function () {
                     dataType: "json",
                     success: function (response) {}
                 });
-                $('#modal-text').append("<strong> Votre livre à bien été supprimé </strong")
+                $('#modal-text').append("<strong> Votre livre à bien été supprimé </strong");
 
             });
 
@@ -102,7 +102,7 @@ $(document).ready(function () {
                     $('#title').attr('value', data[tabId].title);
                     $('#author').attr('value', data[tabId].author);
                     $('#year').attr('value', data[tabId].year);
-                    $('#genre').attr('value', data[tabId].genre);
+                    $("#genre option[value='" + data[tabId].genre.toUpperCase() + "']").attr('selected','selected');
                     $('#bookid').attr('value', data[tabId].id);
                     $('#bookid').attr('name', 'update');
                 });
@@ -153,10 +153,10 @@ $(document).ready(function () {
         form.genre = $('#genre').val();
         if (method === 'update') {
             form.id = $('#bookid').val();
-            msgMethod = 'modifié'
+            msgMethod = 'modifié';
         } else {
-            method = 'create'
-            msgMethod = 'crée'
+            method = 'create';
+            msgMethod = 'crée';
         }
 
         data = JSON.stringify(form);
@@ -194,3 +194,5 @@ $(document).ready(function () {
 function jsUcfirst(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
 }
+
+
