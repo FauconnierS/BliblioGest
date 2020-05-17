@@ -48,7 +48,8 @@
             <div class="tab-pane fade show active" id="nav-books" role="tabpanel" aria-labelledby="nav-books-tab">
 
                 <div class="input-group md-form  form-sm form-2 pl-0">
-                    <input class="form-control my-0 py-1 lime-border" type="text" id="search" placeholder="Rechercher ..." aria-label="Search">
+                    <input class="form-control my-0 py-1 lime-border" type="text" id="search"
+                        placeholder="Rechercher ..." aria-label="Search">
                     <div class="input-group-append">
                         <div class="input-group-text lime lighten " id="basic-text1">
                             <i class="fas fa-search text-grey" aria-hidden="true"></i>
@@ -68,7 +69,8 @@
                     </thead>
                     <tbody>
                         <div id="loading">
-
+                            <!--  <button type='button' data-bookId='' class='btn btn-warning btn-sm my-0 mx-1'> <i class='fas fa-pencil-alt'></i> </button>
+                            <button type='button' data-bookId='' class='btn btn-danger btn-sm my-0 mx-1'> <i class='fas fa-trash-alt'></i> </button> -->
                         </div>
                     </tbody>
                 </table>
@@ -101,12 +103,36 @@
                             <option value="MANGA">Manga</option>
                         </select>
                     </div>
+                    <input type="hidden" name='' id="bookid">
 
-                    <input type="submit" value="Ajouter" class="btn btn-secondary" class="form-control">
+                    <input type="submit" value="Ajouter" class="btn btn-secondary rounded" data-toggle="modal"
+                        data-target="#frameModalSucess" class="form-control">
 
                 </form>
             </div>
         </div>
+
+        <!-- Frame Modal top -->
+        <div class="modal fade top " id="frameModalSucess" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+            aria-hidden="true">
+
+            <!-- Add class .modal-frame and then add class .modal-bottom (or other classes from list above) to set a position to the modal -->
+            <div class="modal-dialog modal-frame modal-top" role="document">
+
+
+                <div class="modal-content qq">
+                    <div class="modal-body alert-success">
+                        <div class="row d-flex justify-content-center align-items-center">
+
+                            <p id="modal-text-sucess" class="pt-3 pr-2"></p>
+
+                            <button type="button" id="modal-sucess" class="btn alert-success rounded" data-dismiss="modal">Fermer</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Frame Modal Bottom -->
     </main>
 
 
