@@ -34,10 +34,62 @@
             </div>
         </nav>
         <main id="profil" class="container">
-            <h1 id="profil-name" class="display-5 text-center m-5"> Votre liste de Notes</h1>
-            <div id ="profil-content" class="row">
+            <div class="row justify-content-center text-center m-3">
+                <h1 id="profil-name" class="display-5 font-weight-bold col-12  mb-4"> LISTE DE NOTES</h1>
+                <button type="button" id="new-note" data-target="#modalNoteForm" data-toggle="modal" class="new-note">
+                    <i class="fas fa-plus"></i>
+                </button>
+            </div>
+            <div id="profil-content" class="row">
 
             </div>
+            <!-- Modal New Note  -->
+            <form id="add-note">
+                <div class="modal fade" id="modalNoteForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+                    aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header text-center">
+                                <h4 class="modal-title w-100 font-weight-bold">Nouvelle Note</h4>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body mx-3">
+                                <div class="md-form mb-5">
+                                    <i class="fas fa-book prefix grey-text"></i>
+                                    <input type="text" id="form-title" class="form-control validate">
+                                    <label data-error="wrong" data-success="right" for="form-title">Titre</label>
+                                </div>
+
+                                <div class="md-form mb-5 ">
+                                    <i class="fas fa-bookmark prefix grey-text"></i>
+                                    <input type="text" id="form-chapter" class="form-control validate">
+                                    <label data-error="wrong" data-success="right" for="form-chapter">Chapitre</label>
+                                </div>
+
+                                <div class="md-form mb-5">
+                                    <i class="fas fa-file-alt prefix grey-text"></i>
+                                    <input type="text" id="form-page" class="form-control validate">
+                                    <label data-error="wrong" data-success="right" for="form-page">Page</label>
+                                </div>
+
+                                <div class="md-form">
+                                    <i class="fas fa-pen prefix grey-text"></i>
+                                    <textarea type="text" id="form-content" class="md-textarea form-control"
+                                        rows="4"></textarea>
+                                    <label data-error="wrong" data-success="right" for="form-content">Contenu</label>
+                                </div>
+
+                            </div>
+                            <div class="modal-footer d-flex justify-content-center">
+                                <button type="submit" class="btn btn-secondary">Ajouter</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <!-- Modal New Note End  -->
         </main>
         <script src="js/jquery-3.4.1.min.js"></script>
         <script src="js/bootstrap.min.js"></script>

@@ -38,3 +38,19 @@ a {
 .md-form[type="search"]:focus {
     border-bottom: #84B484;
 }
+
+.delete-note {
+    color: red;
+    font-size : 1rem ;
+    border:none;
+    background-color:white;
+}
+
+.new-note {
+    font-size: 3rem ;
+    color: greenyellow;
+    text-align: center;
+    border: none ; 
+    background-color: white;
+}
+

@@ -32,7 +32,7 @@ $(document).ready(function () {
                 $('#title').attr('value', data[tabId].title);
                 $('#author').attr('value', data[tabId].author);
                 $('#year').attr('value',data[tabId].year);
-                $("#genre option[value='" + data[tabId].genre.toUpperCase() + "']").attr('selected','selected');
+                $("#genre option[value='" + data[tabId].genre.toUpperCase() + "']").prop('selected',true);
                 $('#bookid').attr('value', data[tabId].id);
                 $('#bookid').attr('name', 'update');
             });
@@ -102,7 +102,7 @@ $(document).ready(function () {
                     $('#title').attr('value', data[tabId].title);
                     $('#author').attr('value', data[tabId].author);
                     $('#year').attr('value', data[tabId].year);
-                    $("#genre option[value='" + data[tabId].genre.toUpperCase() + "']").attr('selected','selected');
+                    $("#genre option[value='" + data[tabId].genre.toUpperCase() + "']").prop('selected',true);
                     $('#bookid').attr('value', data[tabId].id);
                     $('#bookid').attr('name', 'update');
                 });

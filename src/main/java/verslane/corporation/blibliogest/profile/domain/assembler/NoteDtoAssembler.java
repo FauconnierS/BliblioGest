@@ -45,7 +45,7 @@ public class NoteDtoAssembler {
         note.setPage(noteDto.getPage());
         note.setComentary(noteDto.getCommentary());
         note.setUser(user);
-        return null ; 
+        return note ; 
     }
     
 

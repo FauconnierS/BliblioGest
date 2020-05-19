@@ -5,6 +5,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -23,5 +25,15 @@ public class NoteController {
 
         return noteService.findAllById(authenticate);
     }
+
+    @PostMapping("/create")
+    public void createNote(@RequestBody NoteDto noteDto){
+        noteService.create(noteDto);
+    }
+
+    @PostMapping("/delete")
+    public void deleteNote(@RequestBody NoteDto noteDto){
+        noteService.delete(noteDto);
+    } 
     
 }
