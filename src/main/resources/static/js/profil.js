@@ -82,6 +82,7 @@ $(document).ready(function () {
                 },
                 timeout:500
             });
+            alert("Votre note à bien été ajouté ");
             setTimeout(location.reload(true), 1000);
         });
 });

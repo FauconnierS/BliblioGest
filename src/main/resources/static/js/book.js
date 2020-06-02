@@ -186,6 +186,11 @@ $(document).ready(function () {
         location.reload();
     });
 
+    $('#nav-books-tab').click(function (e) { 
+        e.preventDefault();
+        $('#conexionBook').load("book.html #conexionBook");
+    });
+
 
 
 
