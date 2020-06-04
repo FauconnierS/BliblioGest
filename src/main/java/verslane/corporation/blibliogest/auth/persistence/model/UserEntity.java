@@ -31,6 +31,8 @@ public class UserEntity {
 
     private String roles ;
 
+    private String token ; 
+
     @OneToMany(mappedBy = "user")
     private List<NoteEntity> notes ; 
 
@@ -88,5 +90,13 @@ public class UserEntity {
 
     public void setNotes(List<NoteEntity> notes) {
         this.notes = notes;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
     }
 }

@@ -19,9 +19,8 @@ $(document).ready(function () {
             data: data,
             dataType: "json",
             success: function (response) {
-                console.log(response);
             },
-            timeout:500
+            timeout:100
         });
         window.location.replace("http://localhost:8080/blibliogest/login.html");
             
