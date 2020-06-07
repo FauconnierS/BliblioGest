@@ -1,8 +1,12 @@
 $(document).ready(function () {
     const HOST = "http://127.0.0.1:8080/blibliogest/citation/"
 
-    $.getJSON(HOST,
-        function (data, textStatus, jqXHR) {
+    $.ajaxSetup({
+        contentType: "application/json"
+    });
+
+    $.getJSON(HOST)
+        .done(function (data, textStatus, jqXHR) {
             var res;
             $.each(data, function (key, val) {
                 res += "<tr>";
@@ -44,24 +48,29 @@ $(document).ready(function () {
                 formDelete.author = data[tabId].author;
                 citationDelete = JSON.stringify(formDelete);
 
-                $.ajax({
-                    type: "POST",
-                    url: HOST + "delete",
-                    data: citationDelete,
-                    contentType: "application/json",
-                    dataType: "json",
-                    success: function (response) {}
-                });
-                $('#modal-text').append("<strong> Votre livre à bien été supprimé </strong>");
+                $.post(HOST + "delete", citationDelete)
+                    .done(function () {
+                        $('#modal-text').append("<strong> Votre livre à bien été supprimé </strong>");
+                    })
+                    .fail(function (jqXHR, status) {
+                        var response = jqXHR.responseJSON;
+                        $('#modal-body').toggleClass('alert-success alert-danger');
+                        $('#modal-success').toggleClass('alert-success alert-danger');
+
+                        $('#modal-text').append("<span class= 'font-weight-bold' > ERROR " + response.status + " </span> <span class='font-weight-bolder font-italic '>: Impossible de supprimer cette citation </span>");
+                    })
             });
 
-        }
-    );
+        })
+        .fail(function (jqXHR, textStatus) {
+            var response = jqXHR.responseJSON;
+            alert("ERROR : " + response.status + " : Url " + response.error);
+        });
 
     $('#search').keydown(function () {
 
-        $.getJSON(HOST,
-            function (data, textStatus, jqXHR) {
+        $.getJSON(HOST)
+            .done(function (data, textStatus, jqXHR) {
                 var search = $('#search').val();
                 var regex = new RegExp(search, 'i');
                 var output;
@@ -108,18 +117,23 @@ $(document).ready(function () {
                     formDelete.author = data[tabId].author;
                     citationDelete = JSON.stringify(formDelete);
 
-                    $.ajax({
-                        type: "POST",
-                        url: HOST + "delete",
-                        data: citationDelete,
-                        contentType: "application/json",
-                        dataType: "json",
-                        success: function (response) {}
-                    });
-                    $('#modal-text').append("<strong> Votre livre à bien été supprimé </strong>");
+                    $.post(HOST + "delete", citationDelete)
+                        .done(function (data, textStatus, jqXHR) {
+                            $('#modal-text').append("<strong> Votre Citationà bien été supprimé </strong>");
+                        })
+                        .fail(function (jqXHR, status) {
+                            var response = jqXHR.responseJSON;
+                            $('#modal-body').toggleClass('alert-success alert-danger');
+                            $('#modal-success').toggleClass('alert-success alert-danger');
+
+                            $('#modal-text').append("<span class= 'font-weight-bold' > ERROR " + response.status + " </span> <span class='font-weight-bolder font-italic '>: Impossible de supprimer cette citation </span>");
+                        })
                 });
-            }
-        );
+            })
+            .fail(function (jqXHR, textStatus) {
+                var response = jqXHR.responseJSON;
+                alert("ERROR : " + response.status + " : Url " + response.error);
+            });
     })
 
     $('#conexionCitation').submit(function (e) {
@@ -141,18 +155,18 @@ $(document).ready(function () {
         }
         data = JSON.stringify(form);
 
-        $.ajax({
-            type: "POST",
-            url: HOST + method,
-            contentType: "application/json",
-            dataType: "json",
-            data: data,
-            success: function (response) {}
-
-        });
-        $('#modal-text').append("<strong>Votre livre à été " + msgMethod + "</strong");
-
-        $('#conexionCitation').load("book.html #conexionCitation");
+        $.post(HOST + method, data)
+            .done(function () {
+                $('#modal-text').append("<strong>Votre livre à été " + msgMethod + "</strong");
+            })
+            .fail(function (jqXHR) {
+                $('#modal-body').toogleClass('alert-success alert-danger');
+                $('#modal-success').toogleClass('alert-success alert-danger');
+                $('#modal-text').append("<span class= 'font-weight-bold' > ERROR " + response.status + " </span> <span class='font-weight-bolder font-italic '>: Impossible de supprimé le livre </span>");
+            })
+            .always(function () {
+                $('#conexionCitation').load("book.html #conexionCitation");
+            })
 
     });
 
@@ -163,7 +177,7 @@ $(document).ready(function () {
         }
     });
 
-    $('#modal-success').click(function (e) { 
+    $('#modal-success').click(function (e) {
         e.preventDefault();
         location.reload();
     });

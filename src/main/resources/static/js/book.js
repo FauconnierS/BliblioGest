@@ -1,10 +1,14 @@
 $(document).ready(function () {
+
     const HOST = "http://127.0.0.1:8080/blibliogest/book/";
 
-    $.getJSON(HOST,
-        function (data, textStatus, jqXHR) {
+    $.ajaxSetup({
+        contentType: "application/json"
+    });
+
+    $.getJSON(HOST)
+        .done(function (data, textStatus, jqXHR) {
             var res;
-            console.log(data);
             $.each(data, function (key, val) {
                 res += "<tr>";
                 res += "<td data-arraykey ='" + key + "'>" + val.title + "</td>";
@@ -31,8 +35,8 @@ $(document).ready(function () {
 
                 $('#title').attr('value', data[tabId].title);
                 $('#author').attr('value', data[tabId].author);
-                $('#year').attr('value',data[tabId].year);
-                $("#genre option[value='" + data[tabId].genre.toUpperCase() + "']").prop('selected',true);
+                $('#year').attr('value', data[tabId].year);
+                $("#genre option[value='" + data[tabId].genre.toUpperCase() + "']").prop('selected', true);
                 $('#bookid').attr('value', data[tabId].id);
                 $('#bookid').attr('name', 'update');
             });
@@ -49,25 +53,32 @@ $(document).ready(function () {
                 formDelete.genre = data[tabId].genre;
                 bookDelete = JSON.stringify(formDelete);
 
-                $.ajax({
-                    type: "POST",
-                    url: HOST + "delete",
-                    data: bookDelete,
-                    contentType: "application/json",
-                    dataType: "json",
-                    success: function (response) {}
-                });
-                $('#modal-text').append("<strong> Votre livre à bien été supprimé </strong");
+                $.post(HOST + "delete", bookDelete)
+                    .done(function (data, textStatus, jqXHR) {
+                        $('#modal-text').append("<span class=' font-weight-bolder font-italic'> Votre livre à bien été supprimé </span>");
+                    })
+                    .fail(function (jqXHR) {
+                        var response = jqXHR.responseJSON;
+                        $('#modal-body').toggleClass('alert-success alert-danger');
+                        $('#modal-success').toggleClass('alert-success alert-danger');
+
+                        $('#modal-text').append("<span class= 'font-weight-bold' > ERROR " + response.status + " </span> <span class='font-weight-bolder font-italic '>: Impossible de supprimé le livre </span>");
+                    });
+
 
             });
 
-        }
-    );
+        })
+        .fail(function (jqXHR, textStatus, error) {
+            var response = jqXHR.responseJSON;
+            console.log(response)
+            alert("ERROR : " + response.status + " : Url " + response.error);
+        })
 
     $('#search').keydown(function () {
 
-        $.getJSON(HOST,
-            function (data, textStatus, jqXHR) {
+        $.getJSON(HOST)
+            .done(function (data, textStatus, jqXHR) {
                 var search = $('#search').val();
                 var regex = new RegExp(search, 'i');
                 var output;
@@ -83,7 +94,7 @@ $(document).ready(function () {
 
                         output += "<button type='button' data-arraykey = '" + key + "' data-bookId='" + val.id + "' class='btn btn-warning btn-sm rounded m-0 py-1 px-2'> <i class='fas fa-pencil-alt'></i> </button>";
 
-                        output += " <button type='button' data-toggle='modal' data-target='#frameModalSuccess' data-arraykey = '" + key + "' class='btn btn-danger btn-sm rounded m-0 py-1 px-2'> <i class='fas fa-trash-alt'></i> </button>";
+                        output += " <button type='button' id='delete' data-toggle='modal' data-target='#frameModalSuccess' data-arraykey = '" + key + "' class='btn btn-danger btn-sm rounded m-0 py-1 px-2'> <i class='fas fa-trash-alt'></i> </button>";
 
                         output += "</td>";
                         output += "</tr>";
@@ -102,16 +113,14 @@ $(document).ready(function () {
                     $('#title').attr('value', data[tabId].title);
                     $('#author').attr('value', data[tabId].author);
                     $('#year').attr('value', data[tabId].year);
-                    $("#genre option[value='" + data[tabId].genre.toUpperCase() + "']").prop('selected',true);
+                    $("#genre option[value='" + data[tabId].genre.toUpperCase() + "']").prop('selected', true);
                     $('#bookid').attr('value', data[tabId].id);
                     $('#bookid').attr('name', 'update');
                 });
 
                 $('button#delete').click(function (e) {
                     e.preventDefault();
-                    let tabId = $(this).data('arraykey');
-                    console.log(tabId);
-                    console.log(data);
+                    var tabId = $(this).data('arraykey');
                     var bookDelete;
                     var formDelete = new Object();
                     formDelete.id = data[tabId].id;
@@ -122,23 +131,26 @@ $(document).ready(function () {
                     bookDelete = JSON.stringify(formDelete);
                     console.log(bookDelete);
 
-                    $.ajax({
-                        type: "POST",
-                        url: HOST + "delete",
-                        data: bookDelete,
-                        contentType: "application/json",
-                        dataType: "json",
-                        success: function (response) {}
-                    });
-                    $('body').addClass("modal-open");
-                    $('#framModalSuccess').addClass("show");
-                    $('#modal-text').append("<strong> Votre livre à bien été supprimé </strong")
+                    $.post(HOST + "delete", bookDelete)
+                        .done(function (data, textstatus, jqXHR) {
+                            $('#modal-text').append("<strong> Votre livre à bien été supprimé </strong>");
+                        })
+                        .fail(function (jqXHR) {
+                            var response = jqXHR.responseJSON;
+                            $('#modal-body').toggleClass('alert-success alert-danger');
+                            $('#modal-success').toggleClass('alert-success alert-danger');
+
+                            $('#modal-text').append("<span class= 'font-weight-bold' > ERROR " + response.status + " </span> <span class='font-weight-bolder font-italic '>: Impossible de supprimé le livre </span>");
+                        });
 
                 });
 
 
-            }
-        );
+            })
+            .fail(function (jqXHR, textStatus, error) {
+                var response = jqXHR.responseJSON;
+                alert("ERROR : " + response.status + " : URL " + response.error);
+            });
     });
 
     $('#conexionBook').submit(function (e) {
@@ -147,6 +159,7 @@ $(document).ready(function () {
         var msgMethod;
         var data;
         var form = new Object();
+
         form.title = $('#title').val();
         form.author = $('#author').val();
         form.year = $('#year').val();
@@ -161,43 +174,44 @@ $(document).ready(function () {
 
         data = JSON.stringify(form);
 
-        $.ajax({
-            type: "POST",
-            url: HOST + method,
-            contentType: "application/json",
-            dataType: "json",
-            data: data,
-            sucess: function (msg) {}
-        });
-        $('#modal-text').append("<strong>Votre livre à bien été " + msgMethod + " </strong>");
-        
-        $('#conexionBook').load("book.html #conexionBook");
-        
+
+        $.post(HOST + method, data)
+            .done(function () {
+                $('#modal-text').append("<span class='font-weight-bolder font-italic'> Votre livre à bien été >" + msgMethod + " </span>");
+            })
+            .fail(function (jqXHR, status) {
+                var response = jqXHR.responseJSON;
+                $('#modal-body').toggleClass('alert-success alert-danger');
+                $('#modal-success').toggleClass('alert-success alert-danger');
+
+                $('#modal-text').append("<span class= 'font-weight-bold' > ERROR " + response.status + " </span> <span class='font-weight-bolder font-italic '>: Impossible de créer le livre </span>");
+            })
+            .always(function () {
+                $('#conexionBook').load("book.html #conexionBook");
+            });
+
+
     });
+
     $('#frameModalSuccess').click(function (e) {
         e.preventDefault();
-        if(e.target.id == 'frameModalSuccess'){
+        if (e.target.id == 'frameModalSuccess') {
             location.reload();
         }
-      })
+    })
 
     $('#modal-success').click(function (e) {
         e.preventDefault();
         location.reload();
     });
 
-    $('#nav-books-tab').click(function (e) { 
+    $('#nav-books-tab').click(function (e) {
         e.preventDefault();
         $('#conexionBook').load("book.html #conexionBook");
     });
-
-
-
 
 });
 
 function jsUcfirst(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
 }
-
-

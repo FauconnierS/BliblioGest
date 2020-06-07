@@ -1,5 +1,7 @@
 package verslane.corporation.blibliogest.book.domain.service;
 
+import java.io.Console;
+import java.util.EmptyStackException;
 import java.util.List;
 import java.util.Optional;
 
@@ -43,13 +45,13 @@ public class BookService {
         return bookRepository.findByAuthorId(id);
     }
 
-    public String create(BookDto bookDto) {
+    public String create(BookDto bookDto){
+
 
         if (!authorService.exist(bookDto.getAuthor())) {
 
             authorService.create(bookDto.getAuthor());
         }
-
         AuthorEntity author = authorService.findByName(bookDto.getAuthor()).get();
         BookEntity newBook = new BookEntity();
         newBook = dtoAssembler.toModel(bookDto, author);

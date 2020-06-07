@@ -2,13 +2,17 @@ $(document).ready(function () {
 
     const HOST = "http://localhost:8080/blibliogest/note/";
 
+    $.ajaxSetup({
+        contentType: "application/json",
+        timeout: 2000
+    })
+
     var res = "";
-    $.getJSON( HOST,
-        function (data, textStatus, jqXHR) {
-            console.log(data);
+    $.getJSON(HOST)
+        .done(function (data, textStatus, jqXHR) {
             $.each(data, function (key, val) {
                 res += "<div class='col-md-4'>";
-                res += "<div class='card m-2' style='width : 18rem;'>" ; 
+                res += "<div class='card m-2' style='width : 18rem;'>";
                 res += "<div class='card-body text-right pt-1 px-2 '>";
                 res += "<button type='button' data-arraykey='" + key + "' class='delete-note j'>";
                 res += "<i class='fas fa-times'></i>";
@@ -23,66 +27,59 @@ $(document).ready(function () {
                 res += "</div>";
                 res += "</div>";
             });
-           $('#profil-content').append(res); 
+            $('#profil-content').append(res);
 
-           $('button.delete-note').click(function (e) { 
-               e.preventDefault();
-               console.log(e);
-               var tabId = $(this).data('arraykey');
-               var formDelete = new Object();
-               var noteDelete ;
-               formDelete.id = data[tabId].id;
-               formDelete.book = data[tabId].book ;
-               formDelete.chapter = data[tabId].chapter ;
-               formDelete.page = data[tabId].page ;
-               formDelete.commentary = data[tabId].commentary ;
-               noteDelete = JSON.stringify(formDelete);
-               console.log(noteDelete);
+            $('button.delete-note').click(function (e) {
+                e.preventDefault();
+                var tabId = $(this).data('arraykey');
+                var formDelete = new Object();
+                var noteDelete;
+                formDelete.id = data[tabId].id;
+                formDelete.book = data[tabId].book;
+                formDelete.chapter = data[tabId].chapter;
+                formDelete.page = data[tabId].page;
+                formDelete.commentary = data[tabId].commentary;
+                noteDelete = JSON.stringify(formDelete);
 
-               $.ajax({
-                   type: "POST",
-                   url: HOST + "delete",
-                   contentType: "application/json", 
-                   dataType: "json",
-                   data: noteDelete,
-                   success: function (response) {
-                        $('main').prepend("<div class='alert alert-success'>Bravo vous avez suppr </div>");
-                   },
-                   
-                   error: function(response){
-                    $('main').prepend("<div class='alert alert-danger'> problème de supression </div>");
-                   } ,
-                   timeout: 100
-               });
-               setTimeout(location.reload(true),1000);
-               
-           });
-
-        });
-
-        $('#add-note').submit(function (e) { 
-            e.preventDefault();
-            var data ; 
-            var formNew = new Object();
-            formNew.book = $('#form-title').val();
-            formNew.chapter = $('#form-chapter').val();
-            formNew.page = $('#form-page').val();
-            formNew.commentary = $('#form-content').val();
-
-            data = JSON.stringify(formNew);
-            console.log(data);
-
-            $.ajax({
-                type: "POST",
-                url: HOST + "create",
-                data: data,
-                contentType: "application/json",
-                dataType: "json",
-                success: function (response) {
-                },
-                timeout:500
+                $.post(HOST + "delete", noteDelete)
+                    .done(function (data, textStatus, jqXHR) {
+                        alert("Votre Note à bien été Supprimé");
+                    })
+                    .fail(function (jqXHR) {
+                        var response = jqXHR.responseJSON;
+                        alert("ERROR " + response.status + " : Un problème est survenu lors de la supression ");
+                    })
+                    .always(function () {
+                        setTimeout(location.reload(true), 1000);
+                    })
             });
-            alert("Votre note à bien été ajouté ");
-            setTimeout(location.reload(true), 1000);
+        })
+        .fail(function (jqXHR) {
+            var response = jqXHR.responseJSON;
+            alert("ERROR " + response.status + ": Url " + response.error);
         });
+
+    $('#add-note').submit(function (e) {
+        e.preventDefault();
+        var data;
+        var formNew = new Object();
+        formNew.book = $('#form-title').val();
+        formNew.chapter = $('#form-chapter').val();
+        formNew.page = $('#form-page').val();
+        formNew.commentary = $('#form-content').val();
+
+        data = JSON.stringify(formNew);
+
+        $.post(HOST + "create", data)
+            .done(function (data, textStatus, jqXHR) {
+                alert("Votre note à bien été ajouté");
+            })
+            .fail(function (jqXHR) {
+                var response = jqXHR.responseJSON;
+                alert("ERROR " + response.status + " : Problème lors de l'ajout de la note");
+            })
+            .always(function () {
+                setTimeout(location.reload(true), 1000);
+            });
+    });
 });
