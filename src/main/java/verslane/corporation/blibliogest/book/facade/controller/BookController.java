@@ -2,6 +2,8 @@ package verslane.corporation.blibliogest.book.facade.controller;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -33,13 +35,13 @@ public class BookController {
     }
 
     @PostMapping("/create")
-    public String createBook(@RequestBody BookDto bookDto) {
-        return bookService.create(bookDto);
+    public void createBook(@Valid @RequestBody BookDto bookDto) {
+       bookService.create(bookDto);
         
     }
 
     @PostMapping("/update")
-    public void updateBook(@RequestBody BookDto bookDto) {
+    public void updateBook(@Valid @RequestBody BookDto bookDto) {
         bookService.update(bookDto.getId(), bookDto);
     }
 

@@ -2,6 +2,8 @@ package verslane.corporation.blibliogest.profile.facade.controller;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,7 +29,7 @@ public class NoteController {
     }
 
     @PostMapping("/create")
-    public void createNote(@RequestBody NoteDto noteDto){
+    public void createNote(@Valid @RequestBody NoteDto noteDto){
         noteService.create(noteDto);
     }
 

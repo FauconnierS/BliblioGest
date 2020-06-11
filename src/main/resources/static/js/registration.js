@@ -1,31 +1,41 @@
 $(document).ready(function () {
 
+    const HOST = "http://127.0.0.1:8080/blibliogest/";
+
+    $.ajaxSetup({
+        contentType: "application/json"
+    });
+
+
     $('#register').submit(function (e) {
         e.preventDefault();
-        
-        $('#btn-submit').prop("disabled",true)
 
         var data;
         var formRegister = new Object();
         formRegister.username = $('#username').val();
         formRegister.email = $('#email').val();
         formRegister.password = $('#password').val();
-        data = JSON.stringify(formRegister);
+        var confirm = $('#confirm').val();
 
-        $.ajax({
-            type: "post",
-            url: "http://127.0.0.1:8080/blibliogest/register/",
-            contentType: "application/json",
-            data: data,
-            dataType: "json",
-            success: function (response) {
-            },
-            timeout:100
-        });
-        window.location.replace("http://localhost:8080/blibliogest/login.html");
-            
+        if (confirm == formRegister.password) {
 
-        
+            data = JSON.stringify(formRegister);
+            console.log(data);
+            $.post(HOST + "register/", data)
+                .done(function (data, textStatus, jqXHR) {
+                    alert("Veuillez verifier votre boite mail pour confirmer le compte ");
+                })
+                .fail(function (jqXHR) {
+                alert("L'envoi à echouer veuillez contacter l'administrateur du site");
+                })
+                .always(function () {
+                    window.location.replace(HOST + "login.html");
+                });
+        }else {
+            alert("Vos mot de passe ne sont pas les mêmes !");
+            $('#pass').load("registration.html #pass");
+        }
 
     });
+
 });

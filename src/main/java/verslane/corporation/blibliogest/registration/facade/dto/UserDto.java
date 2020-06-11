@@ -1,13 +1,20 @@
 package verslane.corporation.blibliogest.registration.facade.dto;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+
 public class UserDto {
 
     private Long id ; 
 
+	@NotBlank
     private String username ;
-     
+	 
+	@NotBlank
+	@Email
     private String email ; 
 
+	@NotBlank
     private String password ;
 
 	public Long getId() {

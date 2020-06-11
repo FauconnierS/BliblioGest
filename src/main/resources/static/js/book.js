@@ -177,14 +177,22 @@ $(document).ready(function () {
 
         $.post(HOST + method, data)
             .done(function () {
-                $('#modal-text').append("<span class='font-weight-bolder font-italic'> Votre livre à bien été >" + msgMethod + " </span>");
+                $('#modal-text').append("<span class='font-weight-bolder font-italic'> Votre livre à bien été " + msgMethod + " </span>");
             })
             .fail(function (jqXHR, status) {
                 var response = jqXHR.responseJSON;
+                var res = "";
                 $('#modal-body').toggleClass('alert-success alert-danger');
                 $('#modal-success').toggleClass('alert-success alert-danger');
 
-                $('#modal-text').append("<span class= 'font-weight-bold' > ERROR " + response.status + " </span> <span class='font-weight-bolder font-italic '>: Impossible de créer le livre </span>");
+                for (let i = 0; i < response.errors.length; i++) {
+
+                    res += "<li>";
+                    res += response.errors[i].defaultMessage ;
+                    res += "</li>";
+                }
+                console.log(res);
+                $('#modal-text').append("<div class='font-weight-bold text-center' > ERROR " + response.status + " : </div> <ul class='font-weight-bolder font-italic '>  " + res + "</ul>");
             })
             .always(function () {
                 $('#conexionBook').load("book.html #conexionBook");

@@ -3,6 +3,8 @@ package verslane.corporation.blibliogest.registration.facade.controller;
 
 import java.util.Map;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -20,7 +22,7 @@ public class RegistrationController {
     private RegistrationService registrationService;
     
     @PostMapping("/")
-    public void newRegister(@RequestBody UserDto userDto){
+    public void newRegister(@Valid @RequestBody UserDto userDto){
         registrationService.newUser(userDto);
     }
 
