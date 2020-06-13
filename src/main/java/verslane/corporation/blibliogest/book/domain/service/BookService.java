@@ -1,9 +1,9 @@
 package verslane.corporation.blibliogest.book.domain.service;
 
+import java.io.Console;
+import java.util.EmptyStackException;
 import java.util.List;
 import java.util.Optional;
-
-import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -41,11 +41,11 @@ public class BookService {
         return bookDto;
     }
 
-    public List < BookEntity > findByAuthorId(Long id) {
+    public List<BookEntity> findByAuthorId(Long id){
         return bookRepository.findByAuthorId(id);
     }
 
-    public void create(BookDto bookDto) {
+    public String create(BookDto bookDto){
 
 
         if (!authorService.exist(bookDto.getAuthor())) {
@@ -53,21 +53,24 @@ public class BookService {
             authorService.create(bookDto.getAuthor());
         }
         AuthorEntity author = authorService.findByName(bookDto.getAuthor()).get();
-        @Valid BookEntity newBook = new BookEntity();
+        BookEntity newBook = new BookEntity();
         newBook = dtoAssembler.toModel(bookDto, author);
+        String msg = "success";
 
         try {
             bookRepository.save(newBook);
         } catch (Exception e) {
             System.out.println(e.getCause());
+            msg = "error";
         }
-
+        
+        return msg ; 
 
     }
 
     public void update(Long id, BookDto bookDto) {
 
-
+        BookEntity bookEntity = new BookEntity();
         Optional < BookEntity > bookUpd = findById(id);
         AuthorEntity previousAuthor = bookUpd.get().getAuthor();
 
@@ -77,8 +80,7 @@ public class BookService {
             }
 
             AuthorEntity author = authorService.findByName(bookDto.getAuthor()).get();
-            BookEntity bookEntity = dtoAssembler.toModel(bookDto, author);
-
+            bookEntity = dtoAssembler.toModel(bookDto, author);
 
             try {
                 bookRepository.save(bookEntity);
@@ -86,7 +88,7 @@ public class BookService {
                 System.out.println(e.getCause());
             }
 
-            authorService.verifyBookOrCitationExistByAuthor(previousAuthor);
+           authorService.verifyBookOrCitationExistByAuthor(previousAuthor);
 
         } else {
             System.out.println("Le livre n'existe pas !");
@@ -98,8 +100,8 @@ public class BookService {
         if (bookOpt.isPresent()) {
             bookRepository.delete(bookOpt.get());;
         }
-        authorService.verifyBookOrCitationExistByAuthor(authorService.findByName(bookDto.getAuthor()).get());
+          authorService.verifyBookOrCitationExistByAuthor(authorService.findByName(bookDto.getAuthor()).get());
     }
 
-
+   
 }

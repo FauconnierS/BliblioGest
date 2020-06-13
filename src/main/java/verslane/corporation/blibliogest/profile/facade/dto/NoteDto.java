@@ -1,25 +1,17 @@
 package verslane.corporation.blibliogest.profile.facade.dto;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
-
 public class NoteDto {
 
     private Long id ; 
-    
-    @NotBlank
-    @Size(min = 3 , max = 50 , message = "Votre titre doit faire au moins 3 caractères ")
+
     private String book ; 
 
-    
     private String chapter ; 
 
     private String  page  ;
     
-    @NotBlank(message = "Veuillez mettre le commentaire de votre note")
     private String commentary ; 
 
-    @NotBlank
     private long user ;
 
     public Long getId() {

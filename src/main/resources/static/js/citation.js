@@ -160,18 +160,9 @@ $(document).ready(function () {
                 $('#modal-text').append("<strong>Votre livre à été " + msgMethod + "</strong");
             })
             .fail(function (jqXHR) {
-                var response = jqXHR.responseJSON;
-                var res = "";
                 $('#modal-body').toogleClass('alert-success alert-danger');
                 $('#modal-success').toogleClass('alert-success alert-danger');
-
-                for(let i = 0 ; i < response.errors.length; i++) {
-                    res += "<li>";
-                    res += response.errors[i].defaultMessage; 
-                    res += "</li>";
-                }
-
-                $('#modal-text').append("<div class= 'font-weight-bold' > ERROR " + response.status + " </div> <ul class='font-weight-bolder font-italic '> : " + res + "</ul>");
+                $('#modal-text').append("<span class= 'font-weight-bold' > ERROR " + response.status + " </span> <span class='font-weight-bolder font-italic '>: Impossible de supprimé le livre </span>");
             })
             .always(function () {
                 $('#conexionCitation').load("book.html #conexionCitation");
